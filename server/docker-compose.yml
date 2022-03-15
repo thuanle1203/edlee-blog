@@ -1,0 +1,54 @@
+version: "3.7"
+
+services:
+  backend:
+    container_name: myapp_backend
+    restart: always
+    build: .
+    environment:
+      - APP_ENV=development
+      - APP_PORT=3000
+    volumes:
+      - ./src:/var/www/backend/src
+      - ./test:/var/www/backend/test
+    working_dir: /var/www/backend
+    ports:
+      - "9001:3000"
+    links:
+      - mysql
+      - redis
+    depends_on:
+      - mysql
+      - redis
+    env_file: 
+      - .env
+  mysql: # Example Service
+    container_name: myapp_mysql
+    restart: always
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=myapp
+      - MYSQL_PASSWORD=myapp
+      - MYSQL_DATABASE=nestjs
+    ports:
+    - "3308:3306"
+    volumes:
+    - myapp_mysql_data:/var/lib/mysql
+  redis: # Example Service
+    container_name: myapp_redis
+    restart: always
+    image: redis:6.0-alpine
+    expose:
+      - "6379"
+    volumes:
+      - myapp_redis_data:/data
+
+volumes:
+  myapp_mysql_data:
+  myapp_redis_data:
+
+networks:
+  default:
+    external:
+      name: myapp
