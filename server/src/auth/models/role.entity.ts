@@ -2,10 +2,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  BeforeInsert,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
-import { UserEntity } from './user.entity';
+import { PermissionEntity } from './permission.entity';
+import { UserEntity } from 'src/user/models/user.entity';
 
 @Entity()
 export class RoleEntity {
@@ -17,4 +19,8 @@ export class RoleEntity {
 
   @OneToMany((type) => UserEntity, (userEntity) => userEntity.role)
   users: UserEntity[];
+
+  @ManyToMany(() => PermissionEntity)
+  @JoinTable()
+  permissions: PermissionEntity[];
 }

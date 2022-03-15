@@ -8,7 +8,6 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { UserController } from './user/controller/user.controller';
 import { BlogModule } from './blog/blog.module';
 
 @Module({
@@ -29,16 +28,16 @@ import { BlogModule } from './blog/blog.module';
         port: 6379,
       },
     }),
-    TaskModule,
-    CloudinaryModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
     }),
+    TaskModule,
+    CloudinaryModule,
     AuthModule,
     UserModule,
     BlogModule,
   ],
-  controllers: [AppController, UserController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

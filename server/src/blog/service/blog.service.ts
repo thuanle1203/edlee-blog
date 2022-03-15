@@ -13,7 +13,7 @@ const slugify = require('slugify');
 export class BlogService {
   constructor(
     @InjectRepository(BlogEntity)
-    private readonly blogRepository: Repository<Blog>,
+    private readonly blogRepository: Repository<BlogEntity>,
     private userService: UserService,
   ) {}
 

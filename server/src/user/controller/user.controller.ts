@@ -7,19 +7,16 @@ import {
   Delete,
   Put,
   UseGuards,
-  Res,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
-import { User, UserRole } from '../models/user.interface';
+import { User } from '../models/user.interface';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { hasRoles } from 'src/auth/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
-import path = require('path');
-import { join } from 'path';
 import { UserIsUserGuard } from 'src/auth/guards/userIsUser.guard';
-import { UserEntity } from '../models/user.entity';
+import { UserRole } from 'src/auth/models/role.inteface';
 
 @Controller('users')
 export class UserController {
@@ -34,7 +31,7 @@ export class UserController {
   }
 
   @Post('login')
-  login(@Body() user: User): Observable<any> {
+  login(@Body() user: User): Observable<User | any> {
     return this.userService.login(user).pipe(
       map((jwt: string) => {
         return { access_token: jwt };
@@ -42,14 +39,14 @@ export class UserController {
     );
   }
 
-  @Get(':id')
-  findOne(@Param() params): Observable<User> {
-    return this.userService.findOne(params.id);
+  @Get()
+  findAll(): Observable<User[]> {
+    return this.userService.findAll();
   }
 
-  @Get()
-  findAll(@Param() params): Observable<User[]> {
-    return this.userService.findAll();
+  @Get(':id')
+  findOne(@Param('id') id: number): Observable<User> {
+    return this.userService.findOne(id);
   }
 
   @hasRoles(UserRole.ADMIN)
@@ -88,11 +85,4 @@ export class UserController {
   //         map((user: User) => ({ profileImage: user.profileImage })),
   //       );
   //   }
-
-  @Get('profile-image/:imagename')
-  findProfileImage(@Param('imagename') imagename, @Res() res): Observable<any> {
-    return of(
-      res.sendFile(join(process.cwd(), 'uploads/profileimages/' + imagename)),
-    );
-  }
 }

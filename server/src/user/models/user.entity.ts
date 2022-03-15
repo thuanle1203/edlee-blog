@@ -6,12 +6,11 @@ import {
   OneToMany,
   ManyToOne,
 } from 'typeorm';
-import { UserRole } from './user.interface';
 import { BlogEntity } from 'src/blog/model/blog.entity';
-import { RoleEntity } from './role.entity';
+import { RoleEntity } from 'src/auth/models/role.entity';
 import { Task } from 'src/task/models/task.entity';
 
-@Entity()
+@Entity('user')
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -31,11 +30,11 @@ export class UserEntity {
   @Column({ nullable: true })
   profileImage: string;
 
-  //   @ManyToOne((type) => RoleEntity, (role) => role.users)
-  //   role: RoleEntity;
+  @ManyToOne((type) => RoleEntity, (role) => role.users)
+  role: RoleEntity;
 
-  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
-  role: UserRole;
+  // @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
+  // role: UserRole;
 
   @OneToMany((type) => Task, (task) => task.assignedPerson)
   task: Task[];
