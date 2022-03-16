@@ -11,9 +11,9 @@ import {
 import { UserService } from '../services/user.service';
 import { User } from '../models/user.interface';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { catchError, map } from 'rxjs/operators';
 import { UserIsUserGuard } from 'src/auth/guards/userIsUser.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('users')
 export class UserController {
@@ -57,7 +57,6 @@ export class UserController {
     return this.userService.updateOne(Number(id), user);
   }
 
-  // @hasRoles(UserRole.ADMIN)
   @UseGuards(JwtAuthGuard)
   @Put(':id/role')
   updateRoleOfUser(
