@@ -9,6 +9,8 @@ import {
   Param,
   Delete,
   Put,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { BlogService } from '../service/blog.service';
 import { Observable, of } from 'rxjs';
@@ -18,6 +20,7 @@ import { UserIsAuthorGuard } from '../guards/user-is-author.guard';
 import { hasRoles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/auth/models/role.inteface';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 export const BLOG_ENTRIES_URL = 'http://localhost:3000/api/blogs';
 
@@ -26,11 +29,13 @@ export class BlogController {
   constructor(private blogService: BlogService) {}
 
   @Post(':userId')
+  @UseInterceptors(FileInterceptor('file'))
   create(
     @Param('userId') userId: number,
     @Body() blogEntry: Blog,
+    @UploadedFile() file: Express.Multer.File,
   ): Observable<Blog> {
-    return this.blogService.create(userId, blogEntry);
+    return this.blogService.create(userId, blogEntry, file);
   }
 
   // @Get()

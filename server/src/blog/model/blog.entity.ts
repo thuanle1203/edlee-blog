@@ -22,7 +22,13 @@ export class BlogEntity {
   description: string;
 
   @Column({ default: '' })
+  content: string;
+
+  @Column({ default: '' })
   body: string;
+
+  @Column({ default: '' })
+  imgUrl: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
