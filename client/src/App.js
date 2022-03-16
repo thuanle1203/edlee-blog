@@ -1,12 +1,7 @@
-import { useDispatch } from "react-redux";
-import * as acitons from "./redux/action";
+import HomePage from './pages/HomePage';
 
 function App() {
-  const dispatch = useDispatch();
-
-  dispatch(acitons.getPosts.getPostsRequest());
-
-  return <p>This is blog app!</p>;
+  return <HomePage />;
 }
 
 export default App;

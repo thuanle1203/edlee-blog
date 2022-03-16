@@ -22,12 +22,9 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 export const BLOG_ENTRIES_URL = 'http://localhost:3000/api/blogs';
 
 @Controller('blogs')
-@hasRoles(UserRole.ADMIN)
-@UseGuards(RolesGuard)
 export class BlogController {
   constructor(private blogService: BlogService) {}
 
-  // @UseGuards(JwtAuthGuard)
   @Post(':userId')
   create(
     @Param('userId') userId: number,
@@ -55,7 +52,6 @@ export class BlogController {
     return this.blogService.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard, UserIsAuthorGuard)
   @Put(':id')
   updateOne(
     @Param('id') id: number,
@@ -64,7 +60,6 @@ export class BlogController {
     return this.blogService.updateOne(Number(id), blogEntry);
   }
 
-  @UseGuards(JwtAuthGuard, UserIsAuthorGuard)
   @Delete(':id')
   deleteOne(@Param('id') id: number): Observable<any> {
     return this.blogService.deleteOne(id);
