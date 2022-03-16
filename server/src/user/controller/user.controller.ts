@@ -12,11 +12,8 @@ import { UserService } from '../services/user.service';
 import { User } from '../models/user.interface';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { hasRoles } from 'src/auth/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { UserIsUserGuard } from 'src/auth/guards/userIsUser.guard';
-import { UserRole } from 'src/auth/models/role.inteface';
 
 @Controller('users')
 export class UserController {
@@ -49,8 +46,6 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @hasRoles(UserRole.ADMIN)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   deleteOne(@Param('id') id: string): Observable<any> {
     return this.userService.deleteOne(Number(id));

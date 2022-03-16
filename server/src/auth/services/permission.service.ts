@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
+import { User } from 'src/user/models/user.interface';
 import { Repository } from 'typeorm';
 import { PermissionEntity } from '../models/permission.entity';
 import { Permission } from '../models/permission.interface';
@@ -39,7 +40,6 @@ export class PermissionService {
         .getMany(),
     );
   }
-
   //   findByUser(userId: number): Observable<permission[]> {
   //     return from(
   //       this.permissionRepository.find({

@@ -15,10 +15,15 @@ import { Observable, of } from 'rxjs';
 import { Blog } from '../model/blog.interface';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { UserIsAuthorGuard } from '../guards/user-is-author.guard';
+import { hasRoles } from 'src/auth/decorators/roles.decorator';
+import { UserRole } from 'src/auth/models/role.inteface';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 export const BLOG_ENTRIES_URL = 'http://localhost:3000/api/blogs';
 
 @Controller('blogs')
+@hasRoles(UserRole.ADMIN)
+@UseGuards(RolesGuard)
 export class BlogController {
   constructor(private blogService: BlogService) {}
 

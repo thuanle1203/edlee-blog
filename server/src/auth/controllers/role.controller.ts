@@ -1,23 +1,23 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { hasRoles } from '../decorators/roles.decorator';
+import { hasPermissions } from '../decorators/permissions.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { RolesGuard } from '../guards/roles.guard';
-import { Role, UserRole } from '../models/role.inteface';
+import { PermissionGuard } from '../guards/permission.guard';
+import { UserPermission } from '../models/permission.interface';
+import { Role } from '../models/role.inteface';
 import { RoleService } from '../services/role.service';
 
+@hasPermissions(UserPermission.ROLE)
+@UseGuards(JwtAuthGuard, PermissionGuard)
 @Controller('roles')
 export class RoleController {
   constructor(private roleService: RoleService) {}
 
-  @hasRoles(UserRole.ADMIN)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(): Observable<Role[]> {
     return this.roleService.findAll();
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: number): Observable<Role> {
     return this.roleService.findOne(id);

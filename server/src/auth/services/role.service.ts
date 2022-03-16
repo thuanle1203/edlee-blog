@@ -58,6 +58,24 @@ export class RoleService {
     return from(this.roleRepository.findOne({ name: roleName }));
   }
 
+  findPermissions(name: string): Observable<string[]> {
+    return from(
+      this.roleRepository.findOne({
+        where: {
+          name: name,
+        },
+        relations: ['permissions'],
+      }),
+    ).pipe(
+      map((role: Role) => {
+        const permissionNameList = role.permissions.map(
+          (permission: Permission) => permission.name,
+        );
+        return permissionNameList;
+      }),
+    );
+  }
+
   //   findByUser(userId: number): Observable<Role[]> {
   //     return from(
   //       this.roleRepository.find({
