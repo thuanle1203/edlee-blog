@@ -1,5 +1,5 @@
 export const INIT_STATE = {
-  posts: {
+  blogs: {
     isLoading: false,
     data: [],
   },

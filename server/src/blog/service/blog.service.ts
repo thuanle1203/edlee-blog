@@ -21,19 +21,19 @@ export class BlogService {
 
   create(
     userId: number,
-    blogEntry: Blog,
+    blog: Blog,
     file: Express.Multer.File,
-  ): Observable<any> {
+  ): Observable<Blog> {
     return from(this.userService.findOne(userId)).pipe(
       switchMap((user: User) => {
-        blogEntry.author = user;
-        return this.generateSlug(blogEntry.title).pipe(
+        blog.author = user;
+        return this.generateSlug(blog.title).pipe(
           switchMap((slug: string) => {
-            blogEntry.slug = slug;
+            blog.slug = slug;
             return from(this.uploadImageToCloudinary(file)).pipe(
-              map((imgUrl) => {
-                console.log(imgUrl);
-                return from(this.blogRepository.save(blogEntry));
+              switchMap((uploadImage) => {
+                blog.imgUrl = uploadImage.url;
+                return from(this.blogRepository.save(blog));
               }),
             );
           }),
@@ -61,8 +61,8 @@ export class BlogService {
     ).pipe(map((blogEntries: Blog[]) => blogEntries));
   }
 
-  updateOne(id: number, blogEntry: Blog): Observable<Blog> {
-    return from(this.blogRepository.update(id, blogEntry)).pipe(
+  updateOne(id: number, blog: Blog): Observable<Blog> {
+    return from(this.blogRepository.update({ id }, blog)).pipe(
       switchMap(() => this.findOne(id)),
     );
   }
@@ -75,17 +75,16 @@ export class BlogService {
     return of(slugify(title));
   }
 
-  async uploadImageToCloudinary(file: Express.Multer.File) {
-    await this.cloudinaryService
-      .uploadImage(file)
-      .then((response) => {
-        return response;
-      })
-      .catch(() => {
-        throw new BadRequestException('Invalid file type.');
-      });
+  uploadImageToCloudinary(file: Express.Multer.File): Observable<any> {
+    return from(
+      this.cloudinaryService
+        .uploadImage(file)
+        .then((response) => {
+          return response;
+        })
+        .catch(() => {
+          throw new BadRequestException('Invalid file type.');
+        }),
+    );
   }
-}
-function imgUrl(imgUrl: any): import('rxjs').OperatorFunction<void, unknown> {
-  throw new Error('Function not implemented.');
 }

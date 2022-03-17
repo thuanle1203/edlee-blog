@@ -19,8 +19,8 @@ export class TaskService {
     return from(this.taskRepository.findOne(id));
   }
 
-  async create(task: Task): Promise<Task> {
-    return await this.taskRepository.save(task);
+  create(task: Task): Observable<Task> {
+    return from(this.taskRepository.save(task));
   }
 
   async update(task: Task): Promise<UpdateResult> {

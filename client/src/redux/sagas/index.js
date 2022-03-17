@@ -2,40 +2,40 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 import * as actions from '../actions';
 import * as api from '../../api';
 
-function* fetchPostsSaga(action) {
+function* fetchBlogsSaga(action) {
   try {
-    const posts = yield call(api.fetchPosts);
-    yield put(actions.getPosts.getPostsSuccess(posts.data));
+    const blogs = yield call(api.fetchBlogs);
+    yield put(actions.getBlogs.getBlogsSuccess(blogs.data));
   } catch (err) {
     console.error(err);
-    yield put(actions.getPosts.getPostsFailure(err));
+    yield put(actions.getBlogs.getBlogsFailure(err));
   }
 }
 
-function* createPostSaga(action) {
+function* createBlogsaga(action) {
   try {
-    const post = yield call(api.createPost, action.payload);
-    yield put(actions.createPost.createPostSuccess(post.data));
+    const blog = yield call(api.createBlog, action.payload);
+    yield put((actions.createBlog.createBlogsuccess(blog.data)));
   } catch (err) {
     console.error(err);
-    yield put(actions.createPost.createPostFailure(err));
+    yield put(actions.createBlog.createBlogFailure(err));
   }
 }
 
-function* updatePostSaga(action) {
+function* updateBlogsaga(action) {
   try {
-    const updatedPost = yield call(api.updatePost, action.payload);
-    yield put(actions.updatePost.updatePostSuccess(updatedPost.data));
+    const updatedBlog = yield call(api.updateBlog, action.payload);
+    yield put(actions.updateBlog.updateBlogsuccess(updatedBlog.data));
   } catch (err) {
     console.error(err);
-    yield put(actions.updatePost.updatePostFailure(err));
+    yield put(actions.updateBlog.updateBlogFailure(err));
   }
 }
 
 function* mySaga() {
-  yield takeLatest(actions.getPosts.getPostsRequest, fetchPostsSaga);
-  yield takeLatest(actions.createPost.createPostRequest, createPostSaga);
-  yield takeLatest(actions.updatePost.updatePostRequest, updatePostSaga);
+  yield takeLatest(actions.getBlogs.getBlogsRequest, fetchBlogsSaga);
+  yield takeLatest(actions.createBlog.createBlogRequest, createBlogsaga);
+  yield takeLatest(actions.updateBlog.updateBlogRequest, updateBlogsaga);
 }
 
 // generator function ES6

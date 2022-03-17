@@ -4,28 +4,28 @@ import AddIcon from '@material-ui/icons/Add';
 import { useDispatch } from 'react-redux';
 
 import Header from '../components/Header';
-import PostList from '../components/PostList';
+import BlogList from '../components/BlogList';
 import useStyles from './styles';
 import { showModal } from '../redux/actions';
-import CreatePostModal from '../components/CreatePostModal';
+import CreateBlogModal from '../components/CreateBlogModal';
 
 export default function HomePage() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const openCreatePostModal = React.useCallback(() => {
+  const openCreateBlogModal = React.useCallback(() => {
     dispatch(showModal());
   }, [dispatch]);
 
   return (
     <Container maxWidth='lg'>
       <Header />
-      <PostList />
-      <CreatePostModal />
+      <BlogList />
+      <CreateBlogModal />
       <Fab
         color='primary'
         className={classes.fab}
-        onClick={openCreatePostModal}
+        onClick={openCreateBlogModal}
       >
         <AddIcon />
       </Fab>
