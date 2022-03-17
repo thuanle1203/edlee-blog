@@ -4,7 +4,7 @@ services:
   backend:
     container_name: myapp_backend
     restart: always
-    build: .
+    build: ./server
     environment:
       - APP_ENV=development
       - APP_PORT=3000
@@ -13,7 +13,7 @@ services:
       - ./test:/var/www/backend/test
     working_dir: /var/www/backend
     ports:
-      - "9001:3000"
+      - "3001:3001"
     links:
       - mysql
       - redis
@@ -21,7 +21,28 @@ services:
       - mysql
       - redis
     env_file: 
-      - .env
+      - ./server/.env
+  frontend:
+    container_name: myapp_frontend
+    restart: always
+    build: ./client
+    environment:
+      - APP_ENV=development
+      - APP_PORT=3000
+    volumes:
+      - ./src:/var/www/frontend/src
+      - ./test:/var/www/frontend/test
+    working_dir: /var/www/frontend
+    ports:
+      - "3000:3000"
+    links:
+      - mysql
+      - redis
+    depends_on:
+      - mysql
+      - redis
+    env_file: 
+      - ./client/.env
   mysql: # Example Service
     container_name: myapp_mysql
     restart: always
@@ -43,6 +64,16 @@ services:
       - "6379"
     volumes:
       - myapp_redis_data:/data
+  nginx:
+    depends_on:
+      - backend
+      - frontend
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "3050:80"
 
 volumes:
   myapp_mysql_data:

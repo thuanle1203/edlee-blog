@@ -13,16 +13,9 @@ import {
   UploadedFile,
 } from '@nestjs/common';
 import { BlogService } from '../service/blog.service';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Blog } from '../model/blog.interface';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { UserIsAuthorGuard } from '../guards/user-is-author.guard';
-import { hasRoles } from 'src/auth/decorators/roles.decorator';
-import { UserRole } from 'src/auth/models/role.inteface';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
-
-export const BLOG_ENTRIES_URL = 'http://localhost:3000/api/blogs';
 
 @Controller('blogs')
 export class BlogController {
