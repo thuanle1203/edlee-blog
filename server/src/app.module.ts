@@ -9,15 +9,16 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { BlogModule } from './blog/blog.module';
+import { LocalstackModule } from './localstack/localstack.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      // host: 'mysql',
+      host: 'mysql',
       port: 3306,
       username: 'root',
-      password: '120300',
+      password: 'root',
       database: 'nestjs',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
@@ -36,6 +37,7 @@ import { BlogModule } from './blog/blog.module';
     AuthModule,
     UserModule,
     BlogModule,
+    LocalstackModule,
   ],
   controllers: [AppController],
   providers: [AppService],
