@@ -40,4 +40,13 @@ export class LocalstackService {
       });
     });
   }
+
+  getImageFromS3(fileKey: string) {
+    const s3Params = {
+      Bucket: this.s3Provider.getBucketName(),
+      Key: fileKey,
+    }; 
+
+    return this.s3Provider.getS3().getObject(s3Params).createReadStream();
+  }
 }

@@ -15,10 +15,10 @@ import { LocalstackModule } from './localstack/localstack.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'mysql',
+      // host: 'mysql',
       port: 3306,
       username: 'root',
-      password: 'root',
+      // password: 'root',
       database: 'nestjs',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
