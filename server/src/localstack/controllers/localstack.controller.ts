@@ -9,7 +9,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiResponse } from '@nestjs/swagger';
 
-import { ImageFileDTO, ImageResponseDTO } from '../dto/ImageUploadDTO';
+import { ImageFileDTO, ImageResponseDTO } from '../dto/imageUploadDTO';
 import { LocalstackService } from '../services/localstack.service';
 
 @Controller('localstack')
