@@ -11,7 +11,6 @@ export class S3ConfigProvider {
       (this._s3 = new S3({
         accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? 'testaccesskey',
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? 'testsecretkey',
-        endpoint: process.env.DYNAMO_DB_END_POINT ?? 'http://localhost:4566',
         s3ForcePathStyle: true,
         region: process.env.AWS_REGION ?? 'ap-southeast-1',
         logger: console,
@@ -32,6 +31,9 @@ export class S3ConfigProvider {
     });
   }
 }
+<<<<<<< HEAD
 
 /* Create a bucket (run this once)*/
 // new S3ConfigProvider().createBucket();
+=======
+>>>>>>> 8742d8acb82b5e204e49a763f408cbc483f21fc2
