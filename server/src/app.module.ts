@@ -10,7 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { BlogModule } from './blog/blog.module';
 import { LocalstackModule } from './localstack/localstack.module';
-
+import { CategoryModule } from './category/category.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -38,6 +38,7 @@ import { LocalstackModule } from './localstack/localstack.module';
     UserModule,
     BlogModule,
     LocalstackModule,
+    CategoryModule
   ],
   controllers: [AppController],
   providers: [AppService],

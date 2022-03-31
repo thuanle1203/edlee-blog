@@ -124,7 +124,7 @@ export class UserService {
           ],
         },
       ),
-    ).pipe(
+    ).pipe( 
       switchMap((user: User) =>
         this.authService.comparePasswords(password, user.password).pipe(
           map((match: boolean) => {
