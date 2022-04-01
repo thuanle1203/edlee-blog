@@ -31,9 +31,3 @@ export class S3ConfigProvider {
     });
   }
 }
-<<<<<<< HEAD
-
-/* Create a bucket (run this once)*/
-// new S3ConfigProvider().createBucket();
-=======
->>>>>>> 8742d8acb82b5e204e49a763f408cbc483f21fc2
